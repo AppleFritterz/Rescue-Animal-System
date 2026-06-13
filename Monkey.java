@@ -17,9 +17,9 @@ public class Monkey extends RescueAnimal {
             String trainingStatus,
             boolean reserved, 
             String inServiceCountry,
-            Double tailLength, 
-            Double height, 
-            Double bodyLength, 
+            Double tailLength, // in inches
+            Double height, // in inches
+            Double bodyLength, // in inches
             String species) {
         super(name, "monkey",  gender, age, weight, acquisitionDate, acquisitionCountry,
                 trainingStatus, reserved, inServiceCountry);
