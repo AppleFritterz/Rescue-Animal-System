@@ -29,7 +29,7 @@ public class Driver {
                     case "3" -> reserveAnimal(scanner);
                     case "4" -> printAnimals("dogs");
                     case "5" -> printAnimals("monkeys");
-                    case "6" -> printAnimals("in service");
+                    case "6" -> printAnimals("available");
                     default -> System.out.println("Please enter a valid option.");
                 }
             } while (!userInput.equals("q"));
@@ -55,7 +55,7 @@ public class Driver {
     public static void initializeDogList() {
         Dog dog1 = new Dog("Spot", "German Shepherd", "male", 1, 25.6, "05-12-2019", "United States", "intake", false, "United States");
         Dog dog2 = new Dog("Rex", "Great Dane", "male", 3, 35.2, "02-03-2020", "United States", "Phase I", false, "United States");
-        Dog dog3 = new Dog("Bella", "Chihuahua", "female", 4, 25.6, "12-12-2019", "Canada", "in service", true, "Canada");
+        Dog dog3 = new Dog("Bella", "Chihuahua", "female", 4, 25.6, "12-12-2019", "Canada", "in service", false, "Canada");
 
         dogList.add(dog1);
         dogList.add(dog2);
@@ -65,7 +65,7 @@ public class Driver {
 
     // Adds monkeys to a list for testing
     public static void initializeMonkeyList() {
-        Monkey monkey1 = new Monkey("Bobo", "male", 7, 15.5, "06-24-2023", "Argentina", "in service", true, "USA", 15.0, 15.0, 15.0, "capuchin");
+        Monkey monkey1 = new Monkey("Bobo", "male", 7, 15.5, "06-24-2023", "Argentina", "in service", true, "United States", 15.0, 15.0, 15.0, "Capuchin");
         Monkey monkey2 = new Monkey("Bongo", "male", 5, 15.4, "07-22-2019", "Japan", "Phase I", false, "Japan", 18.0, 22.0, 24.0, "Macaque");
         Monkey monkey3 = new Monkey("Zara", "female", 2, 4.1, "11-01-2022", "Colombia", "intake", false, "Colombia", 10.0, 11.0, 13.0, "Squirrel Monkey");
     
@@ -169,8 +169,46 @@ public class Driver {
         // Complete reserveAnimal
         // You will need to find the animal by animal type and in service country
     public static void reserveAnimal(Scanner scanner) {
-        System.out.println("The method reserveAnimal needs to be implemented");
-
+        System.out.println("What type of animal?");
+        String animalType = scanner.nextLine().trim().toLowerCase();
+        System.out.println("In what country?");
+        // assume animals are transportable, 
+        // otherwise fields acquisitionCountry and inServiceCountry
+        // would be redundant
+        String country = scanner.nextLine().trim().toLowerCase();
+        switch (animalType) {
+            case "dog" -> {
+                boolean found = false;
+                for (Dog dog : dogList) {
+                    if (dog.getTrainingStatus().equalsIgnoreCase("in service") &&
+                        !dog.getReserved()) {
+                        dog.setReserved(true);
+                        dog.setInServiceCountry(country);
+                        System.out.println(dog.getName() + " has been reserved.");
+                        found = true;
+                        }
+                }
+                if (!found) {
+                    System.out.println("No suitable dogs.");
+                }
+            }
+            case "monkey" -> {
+                boolean found = false;
+                for (Monkey monkey : monkeyList) {
+                    if (monkey.getTrainingStatus().equalsIgnoreCase("in service") &&
+                        !monkey.getReserved()) {
+                        monkey.setReserved(true);
+                        monkey.setInServiceCountry(country);
+                        System.out.println(monkey.getName() + " has been reserved.");
+                        found = true;
+                        }
+                }
+                if (!found) {
+                    System.out.println("No suitable monkeys.");
+                }
+            }
+            default -> System.out.println("Invalid animal type.");
+        }
     }
 
         // Complete printAnimals
@@ -187,7 +225,7 @@ public class Driver {
 	    // To score "exemplary" you must correctly implement the "available" list.
     public static void printAnimals(String listType) {
         System.out.println("The method printAnimals needs to be implemented");
-
+        
     }
 }
 
