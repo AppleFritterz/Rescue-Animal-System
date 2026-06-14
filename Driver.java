@@ -171,21 +171,20 @@ public class Driver {
     public static void reserveAnimal(Scanner scanner) {
         System.out.println("What type of animal?");
         String animalType = scanner.nextLine().trim().toLowerCase();
+        // current code assumes animals are transportable. Will need to add
+        // additional logic to "if" statements if that is not the case.
         System.out.println("In what country?");
-        // assume animals are transportable, 
-        // otherwise fields acquisitionCountry and inServiceCountry
-        // would be redundant
         String country = scanner.nextLine().trim().toLowerCase();
         switch (animalType) {
             case "dog" -> {
                 boolean found = false;
                 for (Dog dog : dogList) {
-                    if (dog.getTrainingStatus().equalsIgnoreCase("in service") &&
-                        !dog.getReserved()) {
+                    if (dog.getTrainingStatus().equalsIgnoreCase("in service") && !dog.getReserved()) {
                         dog.setReserved(true);
                         dog.setInServiceCountry(country);
                         System.out.println(dog.getName() + " has been reserved.");
                         found = true;
+                        break;
                         }
                 }
                 if (!found) {
@@ -195,8 +194,7 @@ public class Driver {
             case "monkey" -> {
                 boolean found = false;
                 for (Monkey monkey : monkeyList) {
-                    if (monkey.getTrainingStatus().equalsIgnoreCase("in service") &&
-                        !monkey.getReserved()) {
+                    if (monkey.getTrainingStatus().equalsIgnoreCase("in service") && !monkey.getReserved()) {
                         monkey.setReserved(true);
                         monkey.setInServiceCountry(country);
                         System.out.println(monkey.getName() + " has been reserved.");
@@ -224,8 +222,45 @@ public class Driver {
 	    // The other lists can have a print statement saying "This option needs to be implemented".
 	    // To score "exemplary" you must correctly implement the "available" list.
     public static void printAnimals(String listType) {
-        System.out.println("The method printAnimals needs to be implemented");
-        
+        switch (listType) {
+            case "dogs" -> {
+                for (Dog dog : dogList) {
+                    System.out.println("-".repeat(30));
+                    System.out.println("Name: " + dog.getName());
+                    System.out.println("Status: " + dog.getTrainingStatus());
+                    System.out.println("Country of origin: " + dog.getAcquisitionCountry());
+                    System.out.println("Is reserved: " + dog.getReserved());
+                }
+            }
+            case "monkeys" -> {
+                for (Monkey monkey : monkeyList) {
+                    System.out.println("-".repeat(30));
+                    System.out.println("Name: " + monkey.getName());
+                    System.out.println("Status: " + monkey.getTrainingStatus());
+                    System.out.println("Country of origin: " + monkey.getAcquisitionCountry());
+                    System.out.println("Is reserved: " + monkey.getReserved());
+                }
+            }
+            case "available" -> {
+                // does not print reserved or trainingStatus, those are always false and in service, respectively
+                for (Dog dog : dogList) {
+                    if (!dog.getReserved() && (dog.getTrainingStatus().equalsIgnoreCase("in service"))) {
+                        System.out.println("-".repeat(30));
+                        System.out.println("Name: " + dog.getName());
+                        System.out.println("Species: Dog");
+                        System.out.println("Country of origin: " + dog.getAcquisitionCountry());
+                    }
+                }
+                for (Monkey monkey : monkeyList) {
+                    if (!monkey.getReserved() && (monkey.getTrainingStatus().equalsIgnoreCase("in service"))) {
+                        System.out.println("-".repeat(30));
+                        System.out.println("Name: " + monkey.getName());
+                        System.out.println("Species: " + monkey.getSpecies());
+                        System.out.println("Country of origin: " + monkey.getAcquisitionCountry());
+                    }
+                }
+            }
+        }
     }
 }
 
