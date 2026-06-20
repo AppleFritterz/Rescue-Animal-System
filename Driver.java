@@ -171,17 +171,14 @@ public class Driver {
     public static void reserveAnimal(Scanner scanner) {
         System.out.println("What type of animal?");
         String animalType = scanner.nextLine().trim().toLowerCase();
-        // current code assumes animals are transportable. Will need to add
-        // additional logic to "if" statements if that is not the case.
         System.out.println("In what country?");
         String country = scanner.nextLine().trim().toLowerCase();
         switch (animalType) {
             case "dog" -> {
                 boolean found = false;
                 for (Dog dog : dogList) {
-                    if (dog.getTrainingStatus().equalsIgnoreCase("in service") && !dog.getReserved()) {
+                    if (dog.getTrainingStatus().equalsIgnoreCase("in service") && !dog.getReserved() && dog.getInServiceCountry().equalsIgnoreCase(country)) {
                         dog.setReserved(true);
-                        dog.setInServiceCountry(country);
                         System.out.println(dog.getName() + " has been reserved.");
                         found = true;
                         break;
